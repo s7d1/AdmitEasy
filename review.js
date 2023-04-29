@@ -30,7 +30,7 @@ function convertPDFtoText(pdfFile, callback) {
     };
 }
 
-const apiKey= "";// TODO: Add your key
+const apiKey= "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";// TODO: Add your key
 
 
 const { Configuration, OpenAIApi } = require("openai");
