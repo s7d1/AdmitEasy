@@ -186,7 +186,7 @@ process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
 // Get the form and output div elements
-const apiKey= "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";// TODO: Add your key
+const apiKey= "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";// TODO: Add your key
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
