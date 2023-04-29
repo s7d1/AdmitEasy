@@ -68,9 +68,9 @@
         <div class="w3-row-padding w3-center" style="margin-top:64px">
             <p>Click on the "Choose File" button to upload a file:</p>
         
-            <form action="/action_page.php">
-                <input type="file" id="myFile" name="filename">
-                <input type="submit">
+            <form>
+                <input type="file" accept=".jpg,.png,.pdf" id="myFile" name="filename">
+                <input type="submit" id="fileSubmit" name="fileSubmit">
             </form>
         </div>
 
@@ -82,12 +82,13 @@
                 <h3>Review of your résumé:</h3>
               </div>
               <div class="w3-col m6">
-                <p id="review"></p>
+                <p id="resume-review"></p>
               </div>
             </div>
           </div>
     
     </div>
+    <script type="module" src="bundle2.js"></script>
 
 </body>
 </html>
