@@ -61,7 +61,7 @@ const handleSend = async () => {
 sendButton.addEventListener('click', handleSend);
 
 // add an event listener to the input field to allow sending a message by pressing enter
-inputElement.addEventListener('keydown', async (event) => {
+inputElement.addEventListener('keypress', async (event) => {
     if (event.key === 'Enter') {
         await handleSend();
     }

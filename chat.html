@@ -26,8 +26,28 @@
         .w3-bar .logo {
             padding: 0px;
         }
+        .chat-body .chat-message {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Add this line to align to the left */
+        }
 
 
+            .chat-message.bot-message {
+            background-color: lightgreen;
+            border: 1px solid green;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+            .chat-message.user-message {
+            background-color: lightblue;
+            border: 1px solid blue;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
 
 
 
@@ -73,10 +93,12 @@
 
         .chat-body {
             background-color: #f9f9f9;
-            height: 60%;
+            height: 75%;
             width: 100%;
+/*
             overflow-y: scroll;
-            padding: 10px;
+*/
+            padding: 0px;
         }
 
         /* .chat-input {
@@ -207,25 +229,25 @@
         <a href="index.html#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
       </nav>
 
-      <div class="container">
+    <div class="container">
         <div class="chat-header">
-          <div class="logo">
-            <img src="logo1.png" />
-          </div>
-          <div class="title">Personal AI Advisor</div>
+            <div class="logo">
+                <img src="logo1.png" height="auto" width="100" />
+            </div>
+            <div class="title">Personal AI Advisor</div>
         </div>
         <div class="chat-body" id="chat-body"></div>
         <div class="chat-input">
-          <div class="input-wrapper">
             <div class="prompts">
-              <input type="text" id="bot_prompts" placeholder="Your message here" autofocus />
+                <input type="text" id=bot_prompts" placeholder="Your message here" autofocus style="width:100%;border:1px;padding:4px;margin:-5px"/>
             </div>
-            <div class="send" id="send">
-              <img src="send.png" width="36" height="auto"/>
-            </div>
-          </div>
         </div>
-      </div>
+        <div class="send" id="send" hidden="hidden">
+            <img src="send.png" width="36" height="auto"/>
+        </div>
+
+
+    </div>
       
 
 </body>
