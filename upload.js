@@ -36,7 +36,7 @@ app.post('/upload', upload.single('pdfFile'), (req, res) => {
             count--;
             document.getElementById('countdown').innerHTML = count;
             if (count == 0) {
-                window.location.href = "http://localhost:63342/New%20folder/DH2023/index.html"; // Replace "/" with the URL of your desired redirect page
+                window.location.href = "http://localhost:63342/New%20folder/DH2023/processed_resume_review.html"; // Replace "/" with the URL of your desired redirect page
             }
         }, 1000);
     </script>
