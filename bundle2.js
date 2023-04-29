@@ -4489,7 +4489,7 @@ function convertPDFtoText(pdfFile, callback) {
     };
 }
 
-const apiKey= "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";// TODO: Add your key
+const apiKey= "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";// TODO: Add your key
 
 
 const { Configuration, OpenAIApi } = require("openai");
@@ -4534,48 +4534,3 @@ fetch('Resumes/file_info.json')
             });
     });
 },{"openai":37}]},{},[39]);
-
-let speechBtn = document.querySelector("div.w3-container button[name='speak']");
-
-let synth = speechSynthesis;
-isSpeaking = true;
-
-function textToSpeech(text){
-  let utterance = new SpeechSynthesisUtterance(text);
-  for(let voice of synth.getVoices()){
-      if(voice.name === "Google US English"){
-          utterance.voice = voice;
-      }
-  }
-  synth.speak(utterance);
-}
-
-speechBtn.addEventListener("click", e =>{
-  e.preventDefault();
-  let text = messageOutput;
-  if(text !== ""){
-      if(!synth.speaking){
-          textToSpeech(text);
-      }
-      if(text > 80){
-          setInterval(()=>{
-              if(!synth.speaking && !isSpeaking){
-                  isSpeaking = true;
-                  speechBtn.innerText = "Convert To Speech";
-              }else{
-              }
-          }, 500);
-          if(isSpeaking){
-              synth.resume();
-              isSpeaking = false;
-              speechBtn.innerText = "Pause Speech";
-          }else{
-              synth.pause();
-              isSpeaking = true;
-              speechBtn.innerText = "Resume Speech";
-          }
-      }else{
-          speechBtn.innerText = "Convert To Speech";
-      }
-  }
-});

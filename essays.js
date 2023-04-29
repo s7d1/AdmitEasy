@@ -1,5 +1,5 @@
 // Get the form and output div elements
-const apiKey= "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";// TODO: Add your key
+const apiKey= "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";// TODO: Add your key
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({

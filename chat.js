@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-const apiKey= "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";// TODO: Add your key
-=======
-const apiKey= "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";// TODO: Add your key
->>>>>>> f7642074b426c8d05e02793f598600c7f583b38e
+const apiKey= "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";// TODO: Add your key
 
 
 const { Configuration, OpenAIApi } = require("openai");
