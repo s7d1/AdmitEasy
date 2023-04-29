@@ -1,0 +1,8 @@
+{
+  "name": "New folder",
+  "version": "1.0.0",
+  "dependencies": {
+    "openai": "^3.2.1",
+    "openai-client": "^1.0.0"
+  }
+}
