@@ -132,6 +132,21 @@ function drainQueue() {
     runClearTimeout(timeout);
 }
 
+let speechBtn = document.querySelector("div.w3-container button[name='speak']");
+
+let synth = speechSynthesis;
+isSpeaking = true;
+
+function textToSpeech(text){
+  let utterance = new SpeechSynthesisUtterance(text);
+  for(let voice of synth.getVoices()){
+      if(voice.name === "Google US English"){
+          utterance.voice = voice;
+      }
+  }
+  synth.speak(utterance);
+}
+
 process.nextTick = function (fun) {
     var args = new Array(arguments.length - 1);
     if (arguments.length > 1) {
@@ -4534,3 +4549,33 @@ fetch('Resumes/file_info.json')
             });
     });
 },{"openai":37}]},{},[39]);
+
+speechBtn.addEventListener("click", e =>{
+  e.preventDefault();
+  let text = messageOutput;
+  if(text !== ""){
+      if(!synth.speaking){
+          textToSpeech(text);
+      }
+      if(text > 80){
+          setInterval(()=>{
+              if(!synth.speaking && !isSpeaking){
+                  isSpeaking = true;
+                  speechBtn.innerText = "Convert To Speech";
+              }else{
+              }
+          }, 500);
+          if(isSpeaking){
+              synth.resume();
+              isSpeaking = false;
+              speechBtn.innerText = "Pause Speech";
+          }else{
+              synth.pause();
+              isSpeaking = true;
+              speechBtn.innerText = "Resume Speech";
+          }
+      }else{
+          speechBtn.innerText = "Convert To Speech";
+      }
+  }
+});
