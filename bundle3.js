@@ -185,8 +185,80 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
+const apiKey= "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";// TODO: Add your key
+
+
+const { Configuration, OpenAIApi } = require("openai");
+const configuration = new Configuration({
+    apiKey: apiKey,
+});
+const openai = new OpenAIApi(configuration);
+const inputElement = document.getElementById('bot_prompts"');
+const sendButton = document.getElementById('send');
+
+const BotResponse = async (text) =>{
+    const message = [{
+        role: "system", content: `You are a college admissions officer. Do not include information about being an AI.
+            You will guide the student through admissions process and deciding the best program and university for the student.`
+    }, {
+        role: "user", content: text
+    }];
+    // Make a request to the OpenAI API
+    const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: message,
+        temperature: 0.2,
+        max_tokens: 2000,
+        n: 1
+    });
+
+    const messageOutput = completion?.data?.choices?.[0]?.message?.content;
+    console.log(messageOutput);
+    return  messageOutput;
+}
+
+// create a function to handle sending a message and getting a response
+const handleSend = async () => {
+    const message = inputElement.value;
+
+    // create a new message bubble for the user's message
+    const userBubble = document.createElement('div');
+    userBubble.classList.add('chat-message', 'user-message');
+    userBubble.innerText = message;
+    document.getElementById('chat-body').appendChild(userBubble);
+
+    // clear the input field
+    inputElement.value = '';
+
+    // send the message to the bot and get the response
+    const answer = await BotResponse(message);
+
+    // create a new message bubble for the bot's response
+    const botBubble = document.createElement('div');
+    botBubble.classList.add('chat-message', 'bot-message');
+    botBubble.innerText = answer;
+    document.getElementById('chat-body').appendChild(botBubble);
+
+    // scroll to the bottom of the chat window
+    document.getElementById('chat-body').scrollTop = document.getElementById('chat-body').scrollHeight;
+};
+
+
+// add an event listener to the send button
+sendButton.addEventListener('click', handleSend);
+
+// add an event listener to the input field to allow sending a message by pressing enter
+/*
+inputElement.addEventListener('keydown', async (event) => {
+    if (event.key === 'Enter') {
+        await handleSend();
+    }
+});
+*/
+
+},{"openai":38}],3:[function(require,module,exports){
 module.exports = require('./lib/axios');
-},{"./lib/axios":4}],3:[function(require,module,exports){
+},{"./lib/axios":5}],4:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -400,7 +472,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"../cancel/Cancel":5,"../core/buildFullPath":10,"../core/createError":11,"../defaults/transitional":18,"./../core/settle":15,"./../helpers/buildURL":21,"./../helpers/cookies":23,"./../helpers/isURLSameOrigin":26,"./../helpers/parseHeaders":28,"./../utils":31}],4:[function(require,module,exports){
+},{"../cancel/Cancel":6,"../core/buildFullPath":11,"../core/createError":12,"../defaults/transitional":19,"./../core/settle":16,"./../helpers/buildURL":22,"./../helpers/cookies":24,"./../helpers/isURLSameOrigin":27,"./../helpers/parseHeaders":29,"./../utils":32}],5:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -459,7 +531,7 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-},{"./cancel/Cancel":5,"./cancel/CancelToken":6,"./cancel/isCancel":7,"./core/Axios":8,"./core/mergeConfig":14,"./defaults":17,"./env/data":19,"./helpers/bind":20,"./helpers/isAxiosError":25,"./helpers/spread":29,"./utils":31}],5:[function(require,module,exports){
+},{"./cancel/Cancel":6,"./cancel/CancelToken":7,"./cancel/isCancel":8,"./core/Axios":9,"./core/mergeConfig":15,"./defaults":18,"./env/data":20,"./helpers/bind":21,"./helpers/isAxiosError":26,"./helpers/spread":30,"./utils":32}],6:[function(require,module,exports){
 'use strict';
 
 /**
@@ -480,7 +552,7 @@ Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 var Cancel = require('./Cancel');
@@ -601,14 +673,14 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-},{"./Cancel":5}],7:[function(require,module,exports){
+},{"./Cancel":6}],8:[function(require,module,exports){
 'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -758,7 +830,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-},{"../helpers/buildURL":21,"../helpers/validator":30,"./../utils":31,"./InterceptorManager":9,"./dispatchRequest":12,"./mergeConfig":14}],9:[function(require,module,exports){
+},{"../helpers/buildURL":22,"../helpers/validator":31,"./../utils":32,"./InterceptorManager":10,"./dispatchRequest":13,"./mergeConfig":15}],10:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -814,7 +886,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 
 module.exports = InterceptorManager;
 
-},{"./../utils":31}],10:[function(require,module,exports){
+},{"./../utils":32}],11:[function(require,module,exports){
 'use strict';
 
 var isAbsoluteURL = require('../helpers/isAbsoluteURL');
@@ -836,7 +908,7 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 };
 
-},{"../helpers/combineURLs":22,"../helpers/isAbsoluteURL":24}],11:[function(require,module,exports){
+},{"../helpers/combineURLs":23,"../helpers/isAbsoluteURL":25}],12:[function(require,module,exports){
 'use strict';
 
 var enhanceError = require('./enhanceError');
@@ -856,7 +928,7 @@ module.exports = function createError(message, config, code, request, response) 
   return enhanceError(error, config, code, request, response);
 };
 
-},{"./enhanceError":13}],12:[function(require,module,exports){
+},{"./enhanceError":14}],13:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -945,7 +1017,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-},{"../cancel/Cancel":5,"../cancel/isCancel":7,"../defaults":17,"./../utils":31,"./transformData":16}],13:[function(require,module,exports){
+},{"../cancel/Cancel":6,"../cancel/isCancel":8,"../defaults":18,"./../utils":32,"./transformData":17}],14:[function(require,module,exports){
 'use strict';
 
 /**
@@ -990,7 +1062,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   return error;
 };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -1091,7 +1163,7 @@ module.exports = function mergeConfig(config1, config2) {
   return config;
 };
 
-},{"../utils":31}],15:[function(require,module,exports){
+},{"../utils":32}],16:[function(require,module,exports){
 'use strict';
 
 var createError = require('./createError');
@@ -1118,7 +1190,7 @@ module.exports = function settle(resolve, reject, response) {
   }
 };
 
-},{"./createError":11}],16:[function(require,module,exports){
+},{"./createError":12}],17:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1142,7 +1214,7 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
-},{"../defaults":17,"./../utils":31}],17:[function(require,module,exports){
+},{"../defaults":18,"./../utils":32}],18:[function(require,module,exports){
 (function (process){(function (){
 'use strict';
 
@@ -1277,7 +1349,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 }).call(this)}).call(this,require('_process'))
-},{"../adapters/http":3,"../adapters/xhr":3,"../core/enhanceError":13,"../helpers/normalizeHeaderName":27,"../utils":31,"./transitional":18,"_process":1}],18:[function(require,module,exports){
+},{"../adapters/http":4,"../adapters/xhr":4,"../core/enhanceError":14,"../helpers/normalizeHeaderName":28,"../utils":32,"./transitional":19,"_process":1}],19:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -1286,11 +1358,11 @@ module.exports = {
   clarifyTimeoutError: false
 };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = {
   "version": "0.26.1"
 };
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -1303,7 +1375,7 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1375,7 +1447,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-},{"./../utils":31}],22:[function(require,module,exports){
+},{"./../utils":32}],23:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1391,7 +1463,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
     : baseURL;
 };
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1446,7 +1518,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":31}],24:[function(require,module,exports){
+},{"./../utils":32}],25:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1462,7 +1534,7 @@ module.exports = function isAbsoluteURL(url) {
   return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
 };
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1477,7 +1549,7 @@ module.exports = function isAxiosError(payload) {
   return utils.isObject(payload) && (payload.isAxiosError === true);
 };
 
-},{"./../utils":31}],26:[function(require,module,exports){
+},{"./../utils":32}],27:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1547,7 +1619,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":31}],27:[function(require,module,exports){
+},{"./../utils":32}],28:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -1561,7 +1633,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
-},{"../utils":31}],28:[function(require,module,exports){
+},{"../utils":32}],29:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -1616,7 +1688,7 @@ module.exports = function parseHeaders(headers) {
   return parsed;
 };
 
-},{"./../utils":31}],29:[function(require,module,exports){
+},{"./../utils":32}],30:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1645,7 +1717,7 @@ module.exports = function spread(callback) {
   };
 };
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 var VERSION = require('../env/data').version;
@@ -1729,7 +1801,7 @@ module.exports = {
   validators: validators
 };
 
-},{"../env/data":19}],31:[function(require,module,exports){
+},{"../env/data":20}],32:[function(require,module,exports){
 'use strict';
 
 var bind = require('./helpers/bind');
@@ -2080,11 +2152,11 @@ module.exports = {
   stripBOM: stripBOM
 };
 
-},{"./helpers/bind":20}],32:[function(require,module,exports){
+},{"./helpers/bind":21}],33:[function(require,module,exports){
 /* eslint-env browser */
 module.exports = typeof self == 'object' ? self.FormData : window.FormData;
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 "use strict";
 /* tslint:disable */
 /* eslint-disable */
@@ -4124,7 +4196,7 @@ class OpenAIApi extends base_1.BaseAPI {
 }
 exports.OpenAIApi = OpenAIApi;
 
-},{"./base":34,"./common":35,"axios":2}],34:[function(require,module,exports){
+},{"./base":35,"./common":36,"axios":3}],35:[function(require,module,exports){
 "use strict";
 /* tslint:disable */
 /* eslint-disable */
@@ -4185,7 +4257,7 @@ class RequiredError extends Error {
 }
 exports.RequiredError = RequiredError;
 
-},{"axios":2}],35:[function(require,module,exports){
+},{"axios":3}],36:[function(require,module,exports){
 "use strict";
 /* tslint:disable */
 /* eslint-disable */
@@ -4338,7 +4410,7 @@ exports.createRequestFunction = function (axiosArgs, globalAxios, BASE_PATH, con
     };
 };
 
-},{"./base":34}],36:[function(require,module,exports){
+},{"./base":35}],37:[function(require,module,exports){
 "use strict";
 /* tslint:disable */
 /* eslint-disable */
@@ -4394,7 +4466,7 @@ class Configuration {
 }
 exports.Configuration = Configuration;
 
-},{"../package.json":38,"form-data":32}],37:[function(require,module,exports){
+},{"../package.json":39,"form-data":33}],38:[function(require,module,exports){
 "use strict";
 /* tslint:disable */
 /* eslint-disable */
@@ -4423,7 +4495,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./api"), exports);
 __exportStar(require("./configuration"), exports);
 
-},{"./api":33,"./configuration":36}],38:[function(require,module,exports){
+},{"./api":34,"./configuration":37}],39:[function(require,module,exports){
 module.exports={
   "name": "openai",
   "version": "3.2.1",
@@ -4456,81 +4528,4 @@ module.exports={
   }
 }
 
-},{}],39:[function(require,module,exports){
-function convertPDFtoText(pdfFile, callback) {
-    const fileReader = new FileReader();
-    fileReader.readAsArrayBuffer(pdfFile);
-
-    fileReader.onload = () => {
-        const typedArray = new Uint8Array(fileReader.result);
-        pdfjsLib.getDocument(typedArray).promise.then((pdfDoc) => {
-            let pages = Array.from({ length: pdfDoc.numPages }, (_, i) => i + 1);
-            return Promise.all(pages.map((pageNum) => pdfDoc.getPage(pageNum)));
-        })
-            .then((pages) => {
-                return Promise.all(
-                    pages.map((page) => {
-                        return page.getTextContent();
-                    })
-                );
-            })
-            .then((contents) => {
-                let textContent = '';
-                contents.forEach((content) => {
-                    content.items.forEach((item) => {
-                        textContent += item.str + ' ';
-                    });
-                });
-                callback(textContent);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-}
-
-const apiKey= "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";// TODO: Add your key
-
-
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-    apiKey: apiKey,
-});
-const openai = new OpenAIApi(configuration);
-const myElement = document.getElementById('resume-review');
-
-fetch('Resumes/file_info.json')
-    .then(response => response.json())
-    .then(data => {
-        const path = `Resumes/${data.name}`;
-        fetch(path) // fetch the PDF file from the server
-            .then(response => response.blob())
-            .then(pdfBlob => {
-                convertPDFtoText(pdfBlob, async (text) => {
-                    console.log(text);
-                    const message = [{
-                        role: "system", content: `You are a college admissions officer. Do not include information about being an AI.
-            You are to review the resume provided from an admissions standpoint.`
-                    }, {
-                        role: "user", content: `Please give feedback on my resume along with
-            other skills I can work on: '${text}'`
-                    }];
-                    // Make a request to the OpenAI API
-                    const completion = await openai.createChatCompletion({
-                        model: "gpt-3.5-turbo",
-                        messages: message,
-                        temperature: 0.2,
-                        max_tokens: 2000,
-                        n: 1
-                    });
-
-                    const messageOutput = completion?.data?.choices?.[0]?.message?.content;
-                    console.log(messageOutput);
-                    myElement.textContent = messageOutput;
-                });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    });
-},{"openai":37}]},{},[39]);
+},{}]},{},[2]);
