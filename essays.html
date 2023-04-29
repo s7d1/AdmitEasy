@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Essays</title>
+    <link rel="icon" type="image/x-icon" href="/logo1.png">
+
     <style>
         .form-container {
             padding: 128px 16px;
@@ -49,48 +51,65 @@
             box-sizing: border-box;
         }
     </style>
-    <div class="form-container">
-        <h2>Essay Review</h2>
-    
-        <form id="essay-review-form">
-        <label for="prompt-input">Prompt Box</label>
-        <input class="form-input" type="text" id="prompt-input" name="prompt-input"><br><br>
-    
-        <label for="essay-review-input">Essay Input Box</label>
-        <textarea cols="50" class="form-multi-input" type="text" id="essay-review-input" name="essay-review-input"></textarea><br><br>
-    
-            <button class="form-submit" type="submit">Submit</button><br><br>
-        </form>
-    
-      <label for="essay-review-output">Output Box</label>
-      <textarea cols="50" class="form-output" id="essay-review-output" type="text" name="essay-review-output"></textarea><br><br>
-    </div>
-    
-    <script>
-        // Get the form and output div elements
-        const form = document.getElementById('essay-review-form');
-        const output = document.getElementById('essay-review-output');
-    
-        // Add event listener to form submit event
-        form.addEventListener('submit', function(e) {
-            // Prevent default form submission
-            e.preventDefault();
-    
-            // Get the essay review input value
-            const essayReview = document.getElementById('essay-review-input').value;
-            const prompt = document.getElementById('prompt-input').value;
-    
-            // Clear the input field
-            document.getElementById('essay-review-input').value = '';
-            document.getElementById('prompt-input').value = '';
-    
-            // Add the chatgpt result to the output div
-            output.innerHTML = 'chatgpt result';
-        });
-    </script>
+
     
 </head>
 <body>
+<div class="w3-top">
+    <div class="w3-bar w3-white w3-card" id="myNavbar">
+        <a href="#home" class="w3-bar-item w3-button w3-wide" style="margin-right: 30px;"><img src="/logo1.png"></a>
+        <div class="w3-center w3-hide-small" style="display: flex; justify-content: center; align-items: center; height: 100%;">
+            <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
+            <a href="chat.html" class="w3-bar-item w3-button"><i class="fa fa-user"></i> CHAT</a>
+            <a href="resume_review.html" class="w3-bar-item w3-button"><i class="fa fa-th"></i> RÉSUMÉ REVIEWS</a>
+            <a href="essays.html" class="w3-bar-item w3-button"><i class="fa fa-usd"></i> ESSAYS</a>
+            <a href="#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a>
+        </div>
 
+        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+</div>
+
+<div class="form-container">
+    <h2>Essay Review</h2>
+
+    <form id="essay-review-form">
+        <label for="prompt-input">Prompt Box</label>
+        <input class="form-input" type="text" id="prompt-input" name="prompt-input"><br><br>
+
+        <label for="essay-review-input">Essay Input Box</label>
+        <textarea cols="50" class="form-multi-input" type="text" id="essay-review-input" name="essay-review-input"></textarea><br><br>
+
+        <button class="form-submit" type="submit">Submit</button><br><br>
+    </form>
+
+    <label for="essay-review-output">Output Box</label>
+    <textarea cols="50" class="form-output" id="essay-review-output" type="text" name="essay-review-output"></textarea><br><br>
+</div>
+
+<script>
+    // Get the form and output div elements
+    const form = document.getElementById('essay-review-form');
+    const output = document.getElementById('essay-review-output');
+
+    // Add event listener to form submit event
+    form.addEventListener('submit', function(e) {
+        // Prevent default form submission
+        e.preventDefault();
+
+        // Get the essay review input value
+        const essayReview = document.getElementById('essay-review-input').value;
+        const prompt = document.getElementById('prompt-input').value;
+
+        // Clear the input field
+        document.getElementById('essay-review-input').value = '';
+        document.getElementById('prompt-input').value = '';
+
+        // Add the chatgpt result to the output div
+        output.innerHTML = 'chatgpt result';
+    });
+</script>
 </body>
 </html>
