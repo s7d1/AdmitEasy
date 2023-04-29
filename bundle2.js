@@ -132,21 +132,6 @@ function drainQueue() {
     runClearTimeout(timeout);
 }
 
-let speechBtn = document.querySelector("div.w3-container button[name='speak']");
-
-let synth = speechSynthesis;
-isSpeaking = true;
-
-function textToSpeech(text){
-  let utterance = new SpeechSynthesisUtterance(text);
-  for(let voice of synth.getVoices()){
-      if(voice.name === "Google US English"){
-          utterance.voice = voice;
-      }
-  }
-  synth.speak(utterance);
-}
-
 process.nextTick = function (fun) {
     var args = new Array(arguments.length - 1);
     if (arguments.length > 1) {
@@ -4504,7 +4489,7 @@ function convertPDFtoText(pdfFile, callback) {
     };
 }
 
-const apiKey= "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";// TODO: Add your key
+const apiKey= "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";// TODO: Add your key
 
 
 const { Configuration, OpenAIApi } = require("openai");
@@ -4549,6 +4534,21 @@ fetch('Resumes/file_info.json')
             });
     });
 },{"openai":37}]},{},[39]);
+
+let speechBtn = document.querySelector("div.w3-container button[name='speak']");
+
+let synth = speechSynthesis;
+isSpeaking = true;
+
+function textToSpeech(text){
+  let utterance = new SpeechSynthesisUtterance(text);
+  for(let voice of synth.getVoices()){
+      if(voice.name === "Google US English"){
+          utterance.voice = voice;
+      }
+  }
+  synth.speak(utterance);
+}
 
 speechBtn.addEventListener("click", e =>{
   e.preventDefault();

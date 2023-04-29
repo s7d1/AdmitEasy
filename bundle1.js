@@ -186,7 +186,7 @@ process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
 // Get the form and output div elements
-const apiKey= "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";// TODO: Add your key
+const apiKey= "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";// TODO: Add your key
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
@@ -248,6 +248,52 @@ form.addEventListener('submit', async function (e) {
 module.exports = require('./lib/axios');
 },{"./lib/axios":5}],4:[function(require,module,exports){
 'use strict';
+
+let speechBtn = document.querySelector("div.form-container button[name='speak']");
+
+let synth = speechSynthesis;
+isSpeaking = true;
+
+function textToSpeech(text){
+  let utterance = new SpeechSynthesisUtterance(text);
+  for(let voice of synth.getVoices()){
+      if(voice.name === "Google US English"){
+          utterance.voice = voice;
+      }
+  }
+  synth.speak(utterance);
+}
+
+speechBtn.addEventListener("click", e =>{
+  e.preventDefault();
+  let text = messageOutput;
+  if(text !== ""){
+      if(!synth.speaking){
+          textToSpeech(text);
+      }
+      if(text > 80){
+          setInterval(()=>{
+              if(!synth.speaking && !isSpeaking){
+                  isSpeaking = true;
+                  speechBtn.innerText = "Convert To Speech";
+              }else{
+              }
+          }, 500);
+          if(isSpeaking){
+              synth.resume();
+              isSpeaking = false;
+              speechBtn.innerText = "Pause Speech";
+          }else{
+              synth.pause();
+              isSpeaking = true;
+              speechBtn.innerText = "Resume Speech";
+          }
+      }else{
+          speechBtn.innerText = "Convert To Speech";
+      }
+  }
+});
+
 
 var utils = require('./../utils');
 var settle = require('./../core/settle');
